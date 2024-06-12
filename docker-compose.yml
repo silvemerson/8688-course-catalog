@@ -4,6 +4,9 @@ services:
   web:
     container_name: simplePythonFlask
     image: simple-python-flask
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - 5000:5000
     depends_on:
@@ -25,8 +28,18 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "qwe123qwe"
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - ./mariadb_data:/var/lib/mysql
+    healthcheck:
+        test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-uroot", "-ppass"]
+        interval: 30s
+        timeout: 20s
+        retries: 10
 
-
-volumes:
-  mariadb_data:
+  selenium:
+    container_name: selenium
+    image: selenium/standalone-firefox
+    ports:
+      - 4444:4444
+      - 7900:7900
+    restart: always
+    shm_size: '2gb'
