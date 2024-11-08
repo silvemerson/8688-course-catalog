@@ -18,7 +18,7 @@ pipeline {
                 script{
                     image = docker.build("${CONTAINER_IMAGE}")
                     image.inside("-v ${WORKSPACE}:/course-catalog/"){
-                        sh "nosetests -with-xunit --with-coverage \
+                        sh "nosetests --with-xunit --with-coverage \
                         --cover-package=project teste_users.py"
                     }
                 }
@@ -35,6 +35,7 @@ pipeline {
         }
         cleanup{
             sh "docker image rm ${CONTAINER_IMAGE}"
+            sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG}"
         }
     }
 }
