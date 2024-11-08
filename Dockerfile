@@ -2,9 +2,9 @@ FROM python:3.9.10-slim-bullseye
 
 RUN apt update; apt install -y python3-mysqldb libmariadb-dev gcc
 
-WORKDIR courseCatalog/
+WORKDIR course-catalog/
 
-ADD . /courseCatalog/
+ADD . /course-catalog/
 
 RUN pip install -r requirements.txt
 
