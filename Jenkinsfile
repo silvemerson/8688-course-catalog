@@ -35,7 +35,6 @@ pipeline {
         }
         cleanup{
             sh "docker image rm ${CONTAINER_IMAGE}"
-            sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG}"
         }
     }
 }
