@@ -19,7 +19,7 @@ pipeline {
                     image = docker.build("${CONTAINER_IMAGE}")
                     image.inside("-v ${WORKSPACE}:/course-catalog/"){
                         sh "nosetests --with-xunit --with-coverage \
-                        --cover-package=project teste_users.py"
+                        --cover-package=project test_users.py"
                     }
                 }
             }
