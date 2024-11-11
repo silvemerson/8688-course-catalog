@@ -9,7 +9,9 @@ pipeline {
     environment {
         IMAGE_NAME="course-catalog"
         IMAGE_TAG="0.${BUILD_ID}"
-        CONTAINER_IMAGE="${IMAGE_NAME}:${IMAGE_TAG}"       
+        CONTAINER_IMAGE="${IMAGE_NAME}:${IMAGE_TAG}"
+        DOCKER_REGISTRY = "35.224.51.209:8082"
+        HTTP_PROTO = "http://"
     }
 
     stages{
@@ -36,10 +38,26 @@ pipeline {
                 }
             }
         }
-        stage('SonarQube - Analysis Result'){
+        // stage('SonarQube - Analysis Result'){
+        //     steps{
+        //         timeout(time:30, unit: 'SECONDS'){
+        //             waitForQualityGate abortPipeline: false
+        //         }
+        //     }
+        // }
+        stage('Build'){
             steps{
-                timeout(time:30, unit: 'SECONDS'){
-                    waitForQualityGate abortPipeline: false
+                script{
+                    docker.build("${DOCKER_REGISTRY}/${CONTAINER_IMAGE}")
+                }
+            }
+        }
+        stage('Push'){
+            steps{
+                script{
+                    docker.withRegistry("${HTTP_PROTO}${DOCKER_REGISTRY}", "jenkins_docker"){
+                        sh 'docker push ${DOCKER_REGISTRY}/${CONTAINER_IMAGE}'
+                    }
                 }
             }
         }
@@ -54,7 +72,7 @@ pipeline {
         }
         cleanup{
             sh "docker image rm ${CONTAINER_IMAGE}"
+            sh  "docker image rm ${DOCKER_REGISTRY}/${CONTAINER_IMAGE}"
         }
     }
 }
-//
