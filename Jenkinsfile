@@ -29,6 +29,7 @@ pipeline {
     post{
         success{
             echo "A Pipeline foi executada com sucesso"
+            junit 'nosetests.xml'
         }
         failure{
             echo "A Pipeline foi executada com falha"
