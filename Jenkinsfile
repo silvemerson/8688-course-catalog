@@ -26,10 +26,13 @@ pipeline {
 
         }
         stage('SonarScanner'){
-            script {
-                def scannerPath = tool "SonarScanner"
-                withSonarQubeEnv('course-catalog-sonarqube'){
-                    sh "${scannerPath}/bin/sonar-scanner -Dsonar.projectKey=courseCatalog -Dsonar.sources=."
+            steps{
+                script{
+                    def scannerPath = tool "SonarScanner"
+                    withSonarQubeEnv('course-catalog-sonarqube'){
+                        sh "${scannerPath}/bin/sonar-scanner -Dsonar.projectKey=courseCatalog -Dsonar.sources=."
+                    }
+
                 }
             }
         }
