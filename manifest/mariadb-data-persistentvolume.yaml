@@ -10,7 +10,7 @@ spec:
   persistentVolumeReclaimPolicy: Delete
   storageClassName: local-storage
   local:
-    path: /home/vagrant/mariadb-data
+    path: /root/mariadb-data
   nodeAffinity:
     required:
       nodeSelectorTerms:
