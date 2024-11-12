@@ -71,7 +71,7 @@ pipeline {
         }
         stage('Deploy'){
             steps{
-                sh "kubectl -n homolog destroy -f manifest $K8S_ACCESS"
+                sh "kubectl -n homolog delete -f manifest $K8S_ACCESS"
                 sh "kubectl -n homolog apply -f manifest $K8S_ACCESS"
             }
         }
