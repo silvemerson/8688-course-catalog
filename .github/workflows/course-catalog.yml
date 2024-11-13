@@ -33,6 +33,7 @@ jobs:
         uses: actions/checkout@v3
       - name: SonarScanner Install
         run: |
+          sudo sudo sed -i '/nameserver/ c\nameserver 8.8.8.8\nameserver 8.8.4.4' /etc/resolv.conf \
           sudo apt install zip wget -y && \
           wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip \
           unzip sonar-scanner-cli-4.8.0.2856-linux.zip -d /opt \
