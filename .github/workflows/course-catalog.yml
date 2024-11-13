@@ -66,6 +66,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
+      - name: Install Trivy
+        run: |
+          # Baixando o Trivy
+          wget https://github.com/aquasecurity/trivy/releases/download/v0.39.0/trivy_0.39.0_Linux-64bit.deb
+          # Instalando o pacote .deb
+          sudo dpkg -i trivy_0.39.0_Linux-64bit.deb
+          # Verificando se o Trivy foi instalado corretamente
+          trivy --version
+              
+      - name: Docker Build para Trivy
+        run: docker build -t course-catalog:actions-0.${GITHUB_SHA} .
       - name: Trivy Scan 
-        run: docker run aquasec/trivy image course-catalog:actions-0.${GITHUB_SHA} .
+        run: trivy image course-catalog:actions-0.${GITHUB_SHA}
