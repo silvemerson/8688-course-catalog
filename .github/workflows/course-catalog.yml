@@ -34,10 +34,10 @@ jobs:
       - name: SonarScanner
         uses: warchant/setup-sonar-scanner@v7
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}        
-        with:
-          args: |
-            -Dsonar.host.url=http://35.224.51.209:9000/
-            -Dsonar.projectKey=courseCatalog
-            -Dsonar.sources=.
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          sonar-scanner \
+            -Dsonar.host.url=http://35.224.51.209:9000/ \
+            -Dsonar.projectKey=courseCatalog \
+            -Dsonar.sources=. \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
