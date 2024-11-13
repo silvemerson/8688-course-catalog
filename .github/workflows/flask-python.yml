@@ -7,7 +7,7 @@ on:
   pull_request:
     branch:
       - "master"
-  worlflow_dispatch:
+  workflow_dispatch: #manualmente
 
 jobs:
   buid:
