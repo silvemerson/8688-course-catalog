@@ -33,11 +33,9 @@ jobs:
         uses: actions/checkout@v3
       - name: SonarScanner
         uses: warchant/setup-sonar-scanner@v7
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: SonarQube Scan
         run: sonar-scanner
-              -Dsonar.host.url=${{ secrets.SONAR_URL }}
+              -Dsonar.host.url=http://35.224.51.209:9000/
               -Dsonar.login=${{ secrets.SONAR_TOKEN }}
               -Dsonar.projectKey=courseCatalog
               -Dsonar.sources=.
