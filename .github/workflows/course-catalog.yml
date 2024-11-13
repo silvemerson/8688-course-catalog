@@ -55,6 +55,6 @@ jobs:
           export PATH="/opt/sonar-scanner-4.8.0.2856-linux/bin:$PATH" && \
           sonar-scanner \
             -Dsonar.host.url=http://35.224.51.209:9000/ \
-            -Dsonar.projectKey=courseCatalog \
+            -Dsonar.projectKey=courseCatalog_actions \
             -Dsonar.sources=. \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.login=sqp_00ee6a1bfc91eba41de32dfed681251dfdd8683a
