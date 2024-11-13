@@ -67,4 +67,4 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Trivy Scan 
-        run:  run: docker run aquasec/trivy image course-catalog:actions-0.${GITHUB_SHA} .
+        run: docker run aquasec/trivy image course-catalog:actions-0.${GITHUB_SHA} .
