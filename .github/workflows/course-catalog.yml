@@ -83,11 +83,12 @@ jobs:
   push_nexus:
     runs-on: ubuntu-latest
     # needs: sonar-analysis
-    env:
-      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
     steps:
       - name: Docker login
         run: echo "$DOCKER_PASSWORD" | docker login -u jenkins_docker --password-stdin 35.224.51.209:8082
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}        
       - name: Docker build para o Nexus
         run: docker build -t 35.224.51.209:8082/course-catalog:actions-0.${GITHUB_SHA} .
       - name: Docker push
