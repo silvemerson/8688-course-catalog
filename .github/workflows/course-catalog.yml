@@ -31,12 +31,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Install SonarQube scanner
-        uses: nosinovacao/sonarscanner-action@v1
-        with:
-          version: '6.1.0.4477' # Specify the version if needed
-          javaDistribution: 'temurin' # Specify the Java distribution
-          javaVersion: '21'    # Specify the Java version
+      - name: SonarScanner Install
+        run: |
+          apt install zip && \
+          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip \
+          unzip sonar-scanner-cli-4.8.0.2856-linux.zip -d /opt \
+          ln -s /opt/sonar-scanner-4.8.0.2856-linux/bin/sonar-scanner /usr/local/bin/sonar-scanner
       - name: Run SonarScanner
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
