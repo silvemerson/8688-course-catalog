@@ -13,7 +13,7 @@ env:
   IMAGE_NAME: "course-catalog"
   IMAGE_TAG: "actions-0.${GITHUB_SHA}"
   IMAGE_TAG_LATEST: "latest"
-  CONTAINER_IMAGE: "${{ IMAGE_NAME }}:${{ IMAGE_TAG }}"
+  # CONTAINER_IMAGE: "${{ IMAGE_NAME }}:${{ IMAGE_TAG }}"
   DOCKER_REGISTRY: "35.224.51.209:8082"
   HTTP_PROTO:  "http://"
 
@@ -26,10 +26,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Docker Build 
-        run: docker build -t ${{ env.CONTAINER_IMAGE }} .
+        run: docker build -t ${{ IMAGE_NAME }}:${{ IMAGE_TAG }} .
 
       - name: Unit Test      
         run: |
-          docker run --rm -v "${{ github.workspace }}:/course-catalog/" ${{ env.CONTAINER_IMAGE }} \
+          docker run --rm -v "${{ github.workspace }}:/course-catalog/" ${{ IMAGE_NAME }}:${{ IMAGE_TAG }} \
             nosetests --with-xunit --with-coverage --cover-package=project test_users.py
 
