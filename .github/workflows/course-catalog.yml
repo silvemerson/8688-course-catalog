@@ -9,14 +9,6 @@ on:
       - "master"
   workflow_dispatch: #manualmente
 
-env:
-  IMAGE_NAME: "course-catalog"
-  IMAGE_TAG: "actions-0.${GITHUB_SHA}"
-  IMAGE_TAG_LATEST: "latest"
-  # CONTAINER_IMAGE: "${{ IMAGE_NAME }}:${{ IMAGE_TAG }}"
-  DOCKER_REGISTRY: "35.224.51.209:8082"
-  HTTP_PROTO:  "http://"
-
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -26,10 +18,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Docker Build 
-        run: docker build -t ${{ IMAGE_NAME }}:${{ IMAGE_TAG }} .
+        run: docker build -t course-catalog:actions-0.${GITHUB_SHA} .
 
       - name: Unit Test      
         run: |
-          docker run --rm -v "${{ github.workspace }}:/course-catalog/" ${{ IMAGE_NAME }}:${{ IMAGE_TAG }} \
+          docker run --rm -v "${{ github.workspace }}:/course-catalog/" course-catalog:actions-0.${GITHUB_SHA} \
             nosetests --with-xunit --with-coverage --cover-package=project test_users.py
 
