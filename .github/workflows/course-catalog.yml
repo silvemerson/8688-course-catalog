@@ -29,5 +29,5 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Docker Build 
-        run: docker build -t ${{ CONTAINER_IMAGE }}
+        run: docker build -t ${{ CONTAINER_IMAGE }} .
 
