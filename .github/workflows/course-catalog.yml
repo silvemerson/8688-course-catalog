@@ -5,8 +5,9 @@ on:
     branch:
       - "master"
   pull_request:
+    branch:
       - "master"
-  workflow_dispatch:
+  workflow_dispatch: #manualmente
 
 env:
   IMAGE_NAME: "course-catalog"
