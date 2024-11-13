@@ -29,6 +29,9 @@ jobs:
     # needs: build-and-test
     
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
       - name: Install SonarScanner
         run: |
           # Atualiza os repositórios DNS para evitar problemas de conexão
@@ -44,6 +47,9 @@ jobs:
 
           # Adiciona o SonarScanner ao PATH
           echo "export PATH=/opt/sonar-scanner-4.8.0.2856-linux/bin:$PATH" >> $GITHUB_ENV
+          
+          # Verifica se o SonarScanner está instalado corretamente
+          sonar-scanner --version
 
       - name: Run SonarScanner
         env:
