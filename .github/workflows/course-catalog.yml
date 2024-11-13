@@ -11,7 +11,7 @@ on:
 
 env:
   IMAGE_NAME: "course-catalog"
-  IMAGE_TAG: "actions-0.{{ github.run_id }}"
+  IMAGE_TAG: "actions-0.${GITHUB_SHA}"
   IMAGE_TAG_LATEST: "latest"
   CONTAINER_IMAGE: "${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
   DOCKER_REGISTRY: "35.224.51.209:8082"
@@ -26,5 +26,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Docker Build 
-        run: docker build -t IMAGE_NAME:actions-0.${GITHUB_SHA} .
+        run: docker build -t ${{ env.CONTAINER_IMAGE }} .
+
+      - name: Unit Test      
+        run: |
+        docker run --rm -v "${{ github.workspace }}:/course-catalog/" ${{ env.CONTAINER_IMAGE }} \
+        nosetests --with-xunit --with-coverage --cover-package=project test_users.py
 
