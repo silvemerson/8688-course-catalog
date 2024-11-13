@@ -94,6 +94,6 @@ jobs:
         env:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}        
       - name: Docker build para o Nexus
-        run: docker build -t 35.224.51.209:8082/course-catalog:actions-0.${GITHUB_SHA} .
+        run: docker build -t 35.224.51.209:8082/course-catalog:actions-0.${GITHUB_SHA} -f Dockerfile
       - name: Docker push
-        run: docker push 35.224.51.209:8082/course-catalog:actions-0.${GITHUB_SHA}
+        run: docker push 35.224.51.209:8082/course-catalog:actions-0.${GITHUB_SHA} 
