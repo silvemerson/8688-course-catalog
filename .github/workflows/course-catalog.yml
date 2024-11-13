@@ -1,0 +1,32 @@
+name: Course Catalog
+
+on:
+  push:
+    branch:
+      - "master"
+  pull_request:
+      - "master"
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: "course-catalog"
+  IMAGE_TAG: "actions-0.{{ github.run_id }}"
+  IMAGE_TAG_LATEST: "latest"
+  CONTAINER_IMAGE: "${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
+  DOCKER_REGISTRY: "35.224.51.209:8082"
+  HTTP_PROTO:  "http://"
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Docker Build 
+        run: docker build -t ${{ CONTAINER_IMAGE }}
+
