@@ -13,7 +13,7 @@ env:
   IMAGE_NAME: "course-catalog"
   IMAGE_TAG: "actions-0.{{ github.run_id }}"
   IMAGE_TAG_LATEST: "latest"
-  CONTAINER_IMAGE: "${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
+  # CONTAINER_IMAGE: "${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
   DOCKER_REGISTRY: "35.224.51.209:8082"
   HTTP_PROTO:  "http://"
 
@@ -29,5 +29,5 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Docker Build 
-        run: docker build -t ${{ CONTAINER_IMAGE }} .
+        run: docker build -t ${{ IMAGE_NAME }}:${{ IMAGE_TAG }} .
 
