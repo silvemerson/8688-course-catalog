@@ -10,90 +10,17 @@ on:
   workflow_dispatch: #manualmente
 
 jobs:
-  # build-and-test:
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
-
-  #     - name: Docker Build 
-  #       run: docker build -t course-catalog:actions-0.${GITHUB_SHA} .
-
-  #     - name: Unit Test      
-  #       run: |
-  #         docker run --rm -v "${{ github.workspace }}:/course-catalog/" course-catalog:actions-0.${GITHUB_SHA} \
-  #           nosetests --with-xunit --with-coverage --cover-package=project test_users.py
-  # sonar-analysis:
-  #   runs-on: ubuntu-latest
-  #   needs: build-and-test
-    
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
-        
-  #     - name: Install SonarScanner
-  #       run: |
-  #         # Atualiza os repositórios DNS para evitar problemas de conexão
-  #         sudo sed -i '/nameserver/ c\nameserver 8.8.8.8\nnameserver 8.8.4.4' /etc/resolv.conf
-          
-  #         # Instala as dependências necessárias
-  #         sudo apt update -y && sudo apt install -y zip wget unzip curl
-
-  #         # Baixa e instala o SonarScanner
-  #         wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip
-  #         unzip sonar-scanner-cli-4.8.0.2856-linux.zip -d /opt
-  #         rm sonar-scanner-cli-4.8.0.2856-linux.zip
-
-  #         # Adiciona o SonarScanner ao PATH
-  #         export PATH="/opt/sonar-scanner-4.8.0.2856-linux/bin:$PATH"
-
-  #     - name: Run SonarScanner
-  #       env:
-  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  #       run: |
-  #         export PATH="/opt/sonar-scanner-4.8.0.2856-linux/bin:$PATH" && \
-  #         sonar-scanner \
-  #           -Dsonar.host.url=http://35.224.51.209:9000/ \
-  #           -Dsonar.projectKey=courseCatalog_actions \
-  #           -Dsonar.sources=. \
-  #           -Dsonar.login=sqp_00ee6a1bfc91eba41de32dfed681251dfdd8683a
-
-  # trivy:
-  #   runs-on: ubuntu-latest
-  #   needs: sonar-analysis
-
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
-  #     - name: Install Trivy
-  #       run: |
-  #         # Baixando o Trivy
-  #         wget https://github.com/aquasecurity/trivy/releases/download/v0.39.0/trivy_0.39.0_Linux-64bit.deb
-  #         # Instalando o pacote .deb
-  #         sudo dpkg -i trivy_0.39.0_Linux-64bit.deb
-  #         # Verificando se o Trivy foi instalado corretamente
-  #         trivy --version
-
-  #     - name: Docker Build para Trivy
-  #       run: docker build -t course-catalog:actions-0.${GITHUB_SHA} .
-  #     - name: Trivy Scan 
-  #       run: trivy image course-catalog:actions-0.${GITHUB_SHA}
-
-  push_nexus:
+  build-and-test:
     runs-on: ubuntu-latest
-    # needs: sonar-analysis
 
     steps:
-      - name: Configure Docker to allow insecure registry
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Docker Build 
+        run: docker build -t course-catalog:actions-0.${GITHUB_SHA} .
+
+      - name: Unit Test      
         run: |
-          echo '{ "insecure-registries": ["35.224.51.209:8082", "35.224.51.209:8083"] }' | sudo tee /etc/docker/daemon.json
-          sudo systemctl restart docker      
-      - name: Docker login
-        run: echo "$DOCKER_PASSWORD" | docker login -u jenkins_docker --password-stdin 35.224.51.209:8082
-        env:
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}        
-      - name: Docker Build para o Nexus
-        run: pwd && docker build -t 35.224.51.209:8082/course-catalog:actions-0.${GITHUB_SHA} .
-      - name: Docker push
-        run: docker push 35.224.51.209:8082/course-catalog:actions-0.${GITHUB_SHA}
+          docker run --rm -v "${{ github.workspace }}:/course-catalog/" course-catalog:actions-0.${GITHUB_SHA} \
+            nosetests --with-xunit --with-coverage --cover-package=project test_users.py
