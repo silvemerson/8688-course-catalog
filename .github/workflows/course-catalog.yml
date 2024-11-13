@@ -31,9 +31,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Install unzip
+        run: sudo apt-get install -y unzip        
       - name: Install SonarScanner
         run: |
-          wget -qO- https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip | bsdtar -xf- -C /tmp
+          wget -qO- https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip \
+          unzip sonar-scanner-cli-4.6.2.2472-linux.zip -d /tmp \
           export PATH="/tmp/sonar-scanner-4.6.2.2472-linux/bin:$PATH"
       - name: Run SonarScanner
         env:
