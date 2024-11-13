@@ -10,23 +10,23 @@ on:
   workflow_dispatch: #manualmente
 
 jobs:
-  # build-and-test:
-  #   runs-on: ubuntu-latest
+  build-and-test:
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-  #     - name: Docker Build 
-  #       run: docker build -t course-catalog:actions-0.${GITHUB_SHA} .
+      - name: Docker Build 
+        run: docker build -t course-catalog:actions-0.${GITHUB_SHA} .
 
-  #     - name: Unit Test      
-  #       run: |
-  #         docker run --rm -v "${{ github.workspace }}:/course-catalog/" course-catalog:actions-0.${GITHUB_SHA} \
-  #           nosetests --with-xunit --with-coverage --cover-package=project test_users.py
+      - name: Unit Test      
+        run: |
+          docker run --rm -v "${{ github.workspace }}:/course-catalog/" course-catalog:actions-0.${GITHUB_SHA} \
+            nosetests --with-xunit --with-coverage --cover-package=project test_users.py
   sonar-analysis:
     runs-on: ubuntu-latest
-    # needs: build-and-test
+    needs: build-and-test
     
     steps:
       - name: Checkout code
@@ -58,3 +58,13 @@ jobs:
             -Dsonar.projectKey=courseCatalog_actions \
             -Dsonar.sources=. \
             -Dsonar.login=sqp_00ee6a1bfc91eba41de32dfed681251dfdd8683a
+
+  trivy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Trivy Scan 
+        run:  run: docker run aquasec/trivy image course-catalog:actions-0.${GITHUB_SHA} .
