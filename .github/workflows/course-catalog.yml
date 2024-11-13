@@ -29,18 +29,27 @@ jobs:
     # needs: build-and-test
     
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: SonarScanner Install
+      - name: Install SonarScanner
         run: |
-          sudo sudo sed -i '/nameserver/ c\nameserver 8.8.8.8\nameserver 8.8.4.4' /etc/resolv.conf \
-          sudo apt install zip wget -y && \
-          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip \
-          unzip sonar-scanner-cli-4.8.0.2856-linux.zip -d /opt \
+          # Atualiza os repositórios DNS para evitar problemas de conexão
+          sudo sed -i '/nameserver/ c\nameserver 8.8.8.8\nnameserver 8.8.4.4' /etc/resolv.conf
+          
+          # Instala as dependências necessárias
+          sudo apt update -y && sudo apt install -y zip wget unzip curl
+
+          # Baixa e instala o SonarScanner
+          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip
+          unzip sonar-scanner-cli-4.8.0.2856-linux.zip -d /opt
+          rm sonar-scanner-cli-4.8.0.2856-linux.zip
+
+          # Adiciona o SonarScanner ao PATH
+          echo "export PATH=/opt/sonar-scanner-4.8.0.2856-linux/bin:$PATH" >> $GITHUB_ENV
+
       - name: Run SonarScanner
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
+          echo "Running SonarScanner..."
           sonar-scanner \
             -Dsonar.host.url=http://35.224.51.209:9000/ \
             -Dsonar.projectKey=courseCatalog \
