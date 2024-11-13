@@ -55,8 +55,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          echo "Running SonarScanner..." \
-          export PATH="/opt/sonar-scanner-4.8.0.2856-linux/bin:$PATH" \
+          echo "Running SonarScanner..."
           sonar-scanner \
             -Dsonar.host.url=http://35.224.51.209:9000/ \
             -Dsonar.projectKey=courseCatalog \
