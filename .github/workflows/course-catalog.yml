@@ -30,6 +30,6 @@ jobs:
 
       - name: Unit Test      
         run: |
-        docker run --rm -v "${{ github.workspace }}:/course-catalog/" ${{ env.CONTAINER_IMAGE }} \
-        nosetests --with-xunit --with-coverage --cover-package=project test_users.py
+          docker run --rm -v "${{ github.workspace }}:/course-catalog/" ${{ env.CONTAINER_IMAGE }} \
+            nosetests --with-xunit --with-coverage --cover-package=project test_users.py
 
