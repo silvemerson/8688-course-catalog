@@ -32,9 +32,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Install SonarScanner
-      run: |
-        wget -qO- https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip | bsdtar -xf- -C /tmp
-        export PATH="/tmp/sonar-scanner-4.6.2.2472-linux/bin:$PATH"
+        run: |
+          wget -qO- https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip | bsdtar -xf- -C /tmp
+          export PATH="/tmp/sonar-scanner-4.6.2.2472-linux/bin:$PATH"
       - name: Run SonarScanner
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
