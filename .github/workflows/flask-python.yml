@@ -17,11 +17,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: WorkDir
-        run: cd demo-app-python
-
-      - name: Docker Build
-        run: docker build -t flask .
+      - name: Workdir e Docker Build
+        run: cd demo-app-python && docker build -t flask .
 
       - name: Docker Run
         run: |
