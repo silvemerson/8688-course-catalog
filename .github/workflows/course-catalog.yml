@@ -37,5 +37,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: SonarQube Scan
         run: sonar-scanner
+              -Dsonar.host.url=http://35.224.51.209:9000
               -Dsonar.projectKey=courseCatalog
               -Dsonar.sources=.
