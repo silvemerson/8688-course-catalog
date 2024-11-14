@@ -88,9 +88,8 @@ jobs:
     steps:
       - name: Install Kubectl
         run: |
-          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"'
-          chmod +x ./kubectl && mv ./kubectl /usr/local/bin/kubectl'
-          sleep 5        
+          sudo apt update -y
+          sudo apt install kubectl 
       - name: Deploy Kubernetes
         run: |
           kubectl -n homolog set image deployment/web-initiate-db simple-python-flask-init-db=35.224.51.209:8082/course-catalog:actions-0.${GITHUB_SHA} --server=$K8S_API_SERVER --token=$KUBE_TOKEN --insecure-skip-tls-verify
