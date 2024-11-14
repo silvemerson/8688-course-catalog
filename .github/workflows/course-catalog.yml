@@ -61,8 +61,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: sonar-analysis
     steps:
-      - name: PWD
-        run: pwd && ls   
+      - name: Checkout code
+        uses: actions/checkout@v3
       - name: Docker Build
         run: docker build -t course-catalog:actions-0.${GITHUB_SHA} .
       - name: Configure insecure-registries
