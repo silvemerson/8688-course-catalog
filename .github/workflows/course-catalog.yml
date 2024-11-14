@@ -62,7 +62,7 @@ jobs:
     needs: sonar-analysis
     steps:
       - name: Docker Build
-        run: docker build -t course-catalog-teste:actions-0.${GITHUB_SHA} .
+        run: docker build -t course-catalog:actions-0.${GITHUB_SHA} --file=./Dockerfile
 
       - name: Configure insecure-registries
         run: |
