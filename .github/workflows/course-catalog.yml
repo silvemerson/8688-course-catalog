@@ -57,3 +57,16 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_URL: ${{ secrets.SONAR_URL }}
           SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
+  push_nexus:
+    runs-on: ubuntu-latest
+    needs: sonar-analysis
+    steps:
+      - name: Configure insecure-registries
+        run: |
+          echo '{"insecure-registries": ["35.224.51.209:8082", "35.224.51.209:8083"]}' | tee /etc/docker/daemon.json
+          sudo systemctl restart docker
+      - name: Docker Login
+        run: echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USER --password-stdin 35.224.51.209:8082
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD}}
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
