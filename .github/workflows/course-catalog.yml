@@ -36,7 +36,7 @@ jobs:
           sudo sed -i '/nameserver/ c\nameserver 8.8.8.8\nnameserver 8.8.4.4' /etc/resolv.conf
 
           # Instalar as depedências necessárias
-          sudo apt update -y && apt install -y zip wget unzip curl
+          sudo apt update -y && sudo apt install -y zip wget unzip curl
 
           # Baixar e instalar o SonarScanner
           wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip
