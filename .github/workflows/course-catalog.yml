@@ -92,8 +92,8 @@ jobs:
           sudo apt install kubectl 
       - name: Deploy Kubernetes
         run: |
-          kubectl -n homolog set image deployment/web-initiate-db simple-python-flask-init-db=35.224.51.209:8082/course-catalog:actions-0.${GITHUB_SHA} --server=$K8S_API_SERVER --token=$KUBE_TOKEN --insecure-skip-tls-verify
-          kubectl -n homolog set image deployment/web simple-python-flask=35.224.51.209:8082/course-catalog:actions-0.${GITHUB_SHA} --server=$K8S_API_SERVER --token=$KUBE_TOKEN --insecure-skip-tls-verify
+          kubectl -n homolog set image deployment/web-initiate-db simple-python-flask-init-db=35.224.51.209:8082/course-catalog:actions-0.${GITHUB_SHA} --server=https://34.44.213.10:6443 --token=$KUBE_TOKEN --insecure-skip-tls-verify
+          kubectl -n homolog set image deployment/web simple-python-flask=35.224.51.209:8082/course-catalog:actions-0.${GITHUB_SHA} --server=https://34.44.213.10:6443 --token=$KUBE_TOKEN --insecure-skip-tls-verify
         env:
          KUBE_TOKEN: ${{ secrets.KUBE_TOKEN }}
          K8S_API_SERVER: ${{secrets.KUBE_API_SERVER }}
