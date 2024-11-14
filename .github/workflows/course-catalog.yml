@@ -63,6 +63,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
       - name: Docker Build
         run: docker build -t course-catalog:actions-0.${GITHUB_SHA} .
       - name: Configure insecure-registries
@@ -74,6 +75,11 @@ jobs:
         env:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD}}
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
+
+      - name: Docker Push
+        run: |
+          docker tag course-catalog:actions-0.${GITHUB_SHA} 35.224.51.209:8082/course-catalog:actions-0.${GITHUB_SHA}
+          docker push 35.224.51.209:8082/course-catalog:actions-0.${GITHUB_SHA}
 
 
       
