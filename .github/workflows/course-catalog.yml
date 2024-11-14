@@ -53,8 +53,8 @@ jobs:
         run: |
           export PATH="/opt/sonar-scanner-4.8.0.2856-linux/bin:$PATH" && \
           sonar-scanner \
-            -Dsonar.projectKey=${{ SONAR_PROJECT_KEY }} \
+            -Dsonar.projectKey=$SONAR_PROJECT_KEY \
             -Dsonar.sources=. \
-            -Dsonar.host.url=${{ SONAR_URL }} \
-            -Dsonar.login=${{ SONAR_TOKEN }}     
+            -Dsonar.host.url=$SONAR_URL \
+            -Dsonar.login=$SONAR_TOKEN     
 
