@@ -46,10 +46,6 @@ jobs:
           # Adiciona o SonarScanner ao PATH
           export PATH="/opt/sonar-scanner-4.8.0.2856-linux/bin:$PATH"
       - name: SonarScanner Analysis
-        env:
-          SONAR_TOKEN: ${{ SONAR_TOKEN }}
-          SONAR_URL: ${{ SONAR_URL }}
-          SONAR_PROJECT_KEY: ${{ SONAR_PROJECT_KEY }}
         run: |
           export PATH="/opt/sonar-scanner-4.8.0.2856-linux/bin:$PATH" && \
           sonar-scanner \
@@ -57,4 +53,7 @@ jobs:
             -Dsonar.sources=. \
             -Dsonar.host.url=$SONAR_URL \
             -Dsonar.login=$SONAR_TOKEN     
-
+        env:
+          SONAR_TOKEN: ${{ SONAR_TOKEN }}
+          SONAR_URL: ${{ SONAR_URL }}
+          SONAR_PROJECT_KEY: ${{ SONAR_PROJECT_KEY }}
