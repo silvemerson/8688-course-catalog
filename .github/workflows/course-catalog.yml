@@ -70,3 +70,7 @@ jobs:
         env:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD}}
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
+
+      - name: Docker Build
+        run: docker build -t course-catalog:actions-0.${GITHUB_SHA} .
+      
